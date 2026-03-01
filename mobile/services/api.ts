@@ -7,8 +7,8 @@ import { Platform } from 'react-native';
 
 // Pick the correct base URL
 const BASE_URL = Platform.select({
-    android: 'http://10.0.2.2:8000',
-    default: 'http://localhost:8000',
+    android: 'https://web-production-bde5e.up.railway.app',
+    default: 'https://web-production-bde5e.up.railway.app',
 });
 
 // Platform-aware storage wrapper
