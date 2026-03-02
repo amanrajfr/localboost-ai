@@ -23,7 +23,7 @@ function StarRow({ rating }: { rating: number }) {
 function ReviewCard({ review, onReply }: { review: Review; onReply: (id: string) => void }) {
     const [expanded, setExpanded] = useState(false);
     return (
-        <View style={styles.card}>
+        <View style={styles.reviewCard}>
             <View style={styles.cardHeader}>
                 <View style={styles.avatar}>
                     <Text style={styles.avatarText}>{review.author.charAt(0).toUpperCase()}</Text>
@@ -39,9 +39,9 @@ function ReviewCard({ review, onReply }: { review: Review; onReply: (id: string)
 
             {review.ai_response ? (
                 <TouchableOpacity onPress={() => setExpanded(e => !e)}>
-                    <View style={styles.aiReplyContainer}>
-                        <Text style={styles.aiReplyLabel}>🤖 AI Reply {expanded ? '▲' : '▼'}</Text>
-                        {expanded && <Text style={styles.aiReplyText}>{review.ai_response}</Text>}
+                    <View style={styles.aiResponseContainer}>
+                        <Text style={styles.aiBadgeText}>🤖 AI Reply {expanded ? '▲' : '▼'}</Text>
+                        {expanded && <Text style={styles.aiResponseText}>{review.ai_response}</Text>}
                     </View>
                 </TouchableOpacity>
             ) : (
@@ -169,9 +169,18 @@ const styles = StyleSheet.create({
     },
     statValue: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.xl, color: COLORS.primary },
     statLabel: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.xs, color: COLORS.textSecondary, marginTop: 2 },
-    card: {
-        backgroundColor: COLORS.surface, borderRadius: RADIUS.md, padding: SPACING.md,
-        marginBottom: SPACING.md, ...SHADOW.sm,
+    reviewCard: {
+        backgroundColor: COLORS.surface,
+        borderRadius: RADIUS.lg,
+        padding: SPACING.md,
+        marginBottom: SPACING.md,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        shadowColor: COLORS.primaryDark,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
+        elevation: 2,
     },
     cardHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.sm, gap: SPACING.sm },
     avatar: {
@@ -181,16 +190,33 @@ const styles = StyleSheet.create({
     avatarText: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.md, color: COLORS.primary },
     authorName: { fontFamily: 'Inter_600SemiBold', fontSize: FONT_SIZE.sm, color: COLORS.textPrimary },
     date: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.xs, color: COLORS.textMuted },
-    reviewText: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.sm, color: COLORS.textSecondary, lineHeight: 20 },
+    reviewText: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.sm, color: COLORS.textPrimary, lineHeight: 20 },
+
+    aiResponseContainer: {
+        marginTop: SPACING.md,
+        backgroundColor: COLORS.primaryTranslucent,
+        padding: SPACING.md,
+        borderRadius: RADIUS.md,
+        borderWidth: 1,
+        borderColor: 'rgba(79, 70, 229, 0.1)',
+    },
+    aiResponseBadgeRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: SPACING.xs },
+    aiBadgeText: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.xs, color: COLORS.primary },
+    aiResponseText: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.sm, color: COLORS.primaryDark, lineHeight: 20 },
+
     replyBtn: {
-        marginTop: SPACING.sm, backgroundColor: COLORS.primary + '10', borderRadius: RADIUS.sm,
-        paddingVertical: 8, paddingHorizontal: SPACING.sm, alignItems: 'center',
-        borderWidth: 1, borderColor: COLORS.primary + '30',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: SPACING.sm,
+        marginTop: SPACING.md,
+        paddingVertical: 12,
+        borderRadius: RADIUS.full,
+        backgroundColor: COLORS.surface,
+        borderWidth: 1,
+        borderColor: COLORS.primary,
     },
     replyBtnText: { fontFamily: 'Inter_600SemiBold', fontSize: FONT_SIZE.sm, color: COLORS.primary },
-    aiReplyContainer: { marginTop: SPACING.sm, backgroundColor: '#F0FDF4', borderRadius: RADIUS.sm, padding: SPACING.sm },
-    aiReplyLabel: { fontFamily: 'Inter_600SemiBold', fontSize: FONT_SIZE.xs, color: COLORS.success },
-    aiReplyText: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.sm, color: COLORS.textSecondary, marginTop: 6, lineHeight: 18 },
     replyingOverlay: {
         position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
         backgroundColor: 'rgba(255,255,255,0.75)', borderRadius: RADIUS.md,

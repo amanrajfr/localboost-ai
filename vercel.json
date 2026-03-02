@@ -1,0 +1,18 @@
+{
+    "buildCommand": "cd mobile && npx expo --non-interactive export -p web",
+    "outputDirectory": "mobile/dist",
+    "rewrites": [
+        {
+            "source": "/_expo/:path*",
+            "destination": "/_expo/:path*"
+        },
+        {
+            "source": "/assets/:path*",
+            "destination": "/assets/:path*"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}

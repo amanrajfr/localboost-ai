@@ -3,39 +3,42 @@
  */
 
 export const COLORS = {
-    // Primary
-    primary: '#0057D9',
-    primaryLight: '#3B82F6',
-    primaryDark: '#003DA5',
+    // Primary (Vibrant Indigo)
+    primary: '#4F46E5',
+    primaryLight: '#818CF8',
+    primaryDark: '#3730A3',
+    primaryTranslucent: 'rgba(79, 70, 229, 0.1)',
 
-    // Secondary / Accent
-    accent: '#FF6B2C',
-    accentLight: '#FF8F5E',
+    // Secondary / Accent (Warm Coral)
+    accent: '#FF6B6B',
+    accentLight: '#FF8787',
+    accentTranslucent: 'rgba(255, 107, 107, 0.1)',
 
-    // Backgrounds
-    background: '#F0F4FA',
+    // Backgrounds (Airy & Light)
+    background: '#F8FAFC',
     surface: '#FFFFFF',
     surfaceElevated: '#FFFFFF',
+    surfaceTranslucent: 'rgba(255, 255, 255, 0.85)',
 
     // Text
     textPrimary: '#0F172A',
-    textSecondary: '#64748B',
+    textSecondary: '#475569',
     textOnPrimary: '#FFFFFF',
     textMuted: '#94A3B8',
 
     // Semantic
     error: '#EF4444',
-    success: '#22C55E',
+    success: '#10B981',
     warning: '#F59E0B',
 
     // Borders
     border: '#E2E8F0',
-    borderFocus: '#0057D9',
+    borderFocus: '#4F46E5',
 
     // Google button
     google: '#FFFFFF',
     googleText: '#1F2937',
-    googleBorder: '#D1D5DB',
+    googleBorder: '#E2E8F0',
 };
 
 export const SPACING = {
@@ -45,14 +48,15 @@ export const SPACING = {
     lg: 24,
     xl: 32,
     xxl: 48,
+    section: 80,
 };
 
 export const RADIUS = {
-    sm: 8,
-    md: 12,
-    lg: 16,
-    xl: 24,
-    full: 9999,
+    sm: 12,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    full: 9999, // Pill-shaped/circular
 };
 
 export const FONT_SIZE = {

@@ -198,11 +198,11 @@ const styles = StyleSheet.create({
         color: COLORS.textPrimary,
     },
     input: {
-        height: 50,
-        borderWidth: 1.5,
+        height: 52,
+        borderWidth: 1,
         borderColor: COLORS.border,
-        borderRadius: RADIUS.md,
-        paddingHorizontal: SPACING.md,
+        borderRadius: RADIUS.full, // Pill shaped inputs
+        paddingHorizontal: SPACING.lg,
         fontFamily: 'Inter_400Regular',
         fontSize: FONT_SIZE.md,
         color: COLORS.textPrimary,
@@ -210,11 +210,13 @@ const styles = StyleSheet.create({
     },
     inputError: {
         borderColor: COLORS.error,
+        borderWidth: 1.5,
     },
     errorText: {
         fontFamily: 'Inter_400Regular',
         fontSize: FONT_SIZE.xs,
         color: COLORS.error,
+        marginLeft: SPACING.sm,
     },
     forgotButton: {
         alignSelf: 'flex-end',
@@ -226,15 +228,21 @@ const styles = StyleSheet.create({
     },
     primaryButton: {
         backgroundColor: COLORS.primary,
-        height: BUTTON.height,
-        borderRadius: BUTTON.borderRadius,
+        height: 56, // Slightly taller
+        borderRadius: RADIUS.full, // Pill shaped button
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: SPACING.sm,
-        ...SHADOW.md,
+        marginTop: SPACING.md,
+        shadowColor: COLORS.primaryDark,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.2,
+        shadowRadius: 16,
+        elevation: 6,
     },
     buttonDisabled: {
         opacity: 0.6,
+        shadowOpacity: 0,
+        elevation: 0,
     },
     primaryButtonText: {
         fontFamily: 'Inter_600SemiBold',
@@ -259,13 +267,13 @@ const styles = StyleSheet.create({
     },
     googleButton: {
         flexDirection: 'row',
-        height: BUTTON.height,
-        borderRadius: BUTTON.borderRadius,
+        height: 56,
+        borderRadius: RADIUS.full,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: COLORS.google,
-        borderWidth: 1.5,
-        borderColor: COLORS.googleBorder,
+        borderWidth: 1,
+        borderColor: 'rgba(0,0,0,0.1)',
         gap: SPACING.sm,
     },
     googleIcon: {

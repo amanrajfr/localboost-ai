@@ -1,22 +1,23 @@
 import React from 'react';
 import { View, Text, StyleSheet, useWindowDimensions, Image } from 'react-native';
-import { COLORS } from '../../constants/theme';
+import { COLORS, RADIUS } from '../../constants/theme';
+import FadeInSection from '../FadeInSection';
 
 const SERVICES = [
     {
-        title: 'Local SEO',
-        description: 'We specialize in optimizing your online presence to rank higher in local searches, attracting more customers to your business.',
+        title: 'Local SEO & Maps Ranking',
+        description: 'Dominate the Google Local Pack in your city. We optimize your visibility so when locals search for your services, you appear #1.',
         icon: '📍',
     },
     {
-        title: 'Google Ads Management',
-        description: 'Our team effectively manages your Google Ads campaigns, ensuring maximum exposure and return on investment for your advertising budget.',
-        icon: '💳',
+        title: 'Automated Google Reviews',
+        description: 'Stop chasing customers for feedback. Our AI platform automates review requests via SMS/WhatsApp, building trust rapidly.',
+        icon: '⭐',
     },
     {
-        title: 'Google Business Profile Optimization',
-        description: 'We enhance your Google Business Profile to improve visibility, engage potential customers, and drive more traffic to your location.',
-        icon: '🌟',
+        title: 'High-Converting Local Ads',
+        description: 'Stop wasting budget. We run hyper-targeted Google and Facebook ads built for Indian markets to drive high-intent local leads.',
+        icon: '🚀',
     },
 ];
 
@@ -26,20 +27,20 @@ export default function ServicesSection() {
 
     return (
         <View style={styles.container}>
-            <View style={[styles.content, isMobile && styles.contentMobile]}>
+            <FadeInSection delay={200} style={[styles.content, isMobile && styles.contentMobile]}>
 
                 <View style={[styles.splitLayout, isMobile && styles.splitLayoutMobile]}>
                     <View style={styles.leftCol}>
                         <Text style={styles.badge}>WHAT WE DO</Text>
-                        <Text style={styles.title}>Local SEO Services That Drive Results</Text>
+                        <Text style={styles.title}>Data-Driven Local Marketing</Text>
                         <Text style={styles.subtitle}>
-                            Explore our tailored local SEO and Google Ads strategies designed to enhance your online visibility and drive local engagement, and leads in your area.
+                            We combine advanced local SEO, review automation, and targeted ads to make your business the obvious choice in your locality.
                         </Text>
 
                         <View style={styles.serviceList}>
                             {SERVICES.map((s, i) => (
                                 <View key={i} style={styles.serviceItem}>
-                                    <View style={styles.serviceIcon}><Text>{s.icon}</Text></View>
+                                    <View style={styles.serviceIcon}><Text style={{ fontSize: 24 }}>{s.icon}</Text></View>
                                     <View style={styles.serviceTextGroup}>
                                         <Text style={styles.serviceTitle}>{s.title}</Text>
                                         <Text style={styles.serviceDesc}>{s.description}</Text>
@@ -50,13 +51,25 @@ export default function ServicesSection() {
                     </View>
 
                     <View style={styles.rightCol}>
+                        {/* Glassmorphism visual element placeholder */}
                         <View style={styles.imagePlaceholder}>
-                            <Text style={styles.imagePlaceholderText}>[ Marketing Illustration ]</Text>
-                            <Text style={{ fontSize: 80, marginTop: 20 }}>📊</Text>
+                            <View style={styles.glassCard}>
+                                <Text style={styles.glassTitle}>Google Business Profile</Text>
+                                <View style={styles.glassStat}>
+                                    <View style={styles.starRow}>
+                                        <Text>⭐⭐⭐⭐⭐</Text>
+                                        <Text style={styles.boldText}>4.9</Text>
+                                    </View>
+                                    <Text style={styles.subtext}>(1,284 reviews)</Text>
+                                </View>
+                                <View style={styles.glassGraph}>
+                                    <Text style={{ color: COLORS.success, fontWeight: 'bold' }}>+142% Profile Views This Month</Text>
+                                </View>
+                            </View>
                         </View>
                     </View>
                 </View>
-            </View>
+            </FadeInSection>
         </View>
     );
 }
@@ -64,8 +77,8 @@ export default function ServicesSection() {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        backgroundColor: '#F8FAFC',
-        paddingVertical: 80,
+        backgroundColor: '#FFFFFF', // Clean white background to contrast with airy hero
+        paddingVertical: 100,
     },
     content: {
         maxWidth: 1200,
@@ -73,16 +86,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
     },
     contentMobile: {
-        paddingVertical: 40,
+        paddingVertical: 60,
         paddingHorizontal: 20,
     },
     splitLayout: {
         flexDirection: 'row',
-        gap: 60,
+        gap: 80,
         alignItems: 'center',
     },
     splitLayoutMobile: {
         flexDirection: 'column',
+        gap: 60,
     },
     leftCol: {
         flex: 1,
@@ -90,6 +104,8 @@ const styles = StyleSheet.create({
     rightCol: {
         flex: 1,
         width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     badge: {
         color: COLORS.primary,
@@ -99,60 +115,111 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     title: {
-        fontSize: 40,
+        fontSize: 48,
         fontFamily: 'Inter_700Bold',
         color: COLORS.textPrimary,
-        marginBottom: 20,
+        marginBottom: 24,
         letterSpacing: -1,
+        lineHeight: 56,
     },
     subtitle: {
-        fontSize: 18,
+        fontSize: 20,
         fontFamily: 'Inter_400Regular',
         color: COLORS.textSecondary,
-        lineHeight: 28,
-        marginBottom: 40,
+        lineHeight: 32,
+        marginBottom: 48,
     },
     serviceList: {
-        gap: 32,
+        gap: 40,
     },
     serviceItem: {
         flexDirection: 'row',
-        gap: 20,
+        gap: 24,
     },
     serviceIcon: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
-        backgroundColor: '#E8F0FF',
+        width: 64,
+        height: 64,
+        borderRadius: RADIUS.full, // Fully circular icon backgrounds
+        backgroundColor: COLORS.primaryTranslucent,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(79, 70, 229, 0.1)',
     },
     serviceTextGroup: {
         flex: 1,
     },
     serviceTitle: {
-        fontSize: 18,
+        fontSize: 20,
         fontFamily: 'Inter_700Bold',
         color: COLORS.textPrimary,
         marginBottom: 8,
     },
     serviceDesc: {
-        fontSize: 15,
+        fontSize: 16,
         fontFamily: 'Inter_400Regular',
         color: COLORS.textSecondary,
-        lineHeight: 24,
+        lineHeight: 26,
     },
     imagePlaceholder: {
-        backgroundColor: '#E2E8F0',
-        borderRadius: 24,
+        backgroundColor: COLORS.background,
+        borderRadius: RADIUS.xl,
         height: 500,
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
+        position: 'relative',
+        overflow: 'hidden',
+        borderWidth: 1,
+        borderColor: COLORS.border,
     },
-    imagePlaceholderText: {
-        color: '#64748B',
-        fontFamily: 'Inter_600SemiBold',
-        fontSize: 18,
+    glassCard: {
+        backgroundColor: COLORS.surfaceTranslucent,
+        padding: 32,
+        borderRadius: RADIUS.lg,
+        shadowColor: COLORS.primaryDark,
+        shadowOffset: { width: 0, height: 20 },
+        shadowOpacity: 0.1,
+        shadowRadius: 40,
+        elevation: 10,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.5)',
+        width: '80%',
+        alignItems: 'center',
+        // @ts-ignore - Valid React Native Web property
+        backdropFilter: 'blur(10px)', // Web glassmorphism
+    },
+    glassTitle: {
+        fontSize: 24,
+        fontFamily: 'Inter_700Bold',
+        color: COLORS.textPrimary,
+        marginBottom: 16,
+        textAlign: 'center',
+    },
+    glassStat: {
+        alignItems: 'center',
+        marginBottom: 24,
+    },
+    starRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        marginBottom: 4,
+    },
+    boldText: {
+        fontFamily: 'Inter_700Bold',
+        fontSize: 20,
+        color: COLORS.textPrimary,
+    },
+    subtext: {
+        fontFamily: 'Inter_400Regular',
+        fontSize: 14,
+        color: COLORS.textSecondary,
+    },
+    glassGraph: {
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: RADIUS.full,
     }
 });

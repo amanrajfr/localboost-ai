@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable, useWindowDimensions, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, FONT_SIZE } from '../../constants/theme';
+import { COLORS, FONT_SIZE, RADIUS } from '../../constants/theme';
+import FadeInSection from '../FadeInSection';
 
 export default function HeroSection() {
     const router = useRouter();
@@ -17,33 +18,33 @@ export default function HeroSection() {
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
         >
-            <View style={[styles.content, isMobile && styles.contentMobile]}>
+            <FadeInSection delay={100} style={[styles.content, isMobile && styles.contentMobile]}>
 
                 {/* Badge */}
                 <View style={styles.badge}>
-                    <Text style={styles.badgeText}>🚀 Top Local Marketing Software</Text>
+                    <Text style={styles.badgeText}>🚀 India's #1 Local SEO Platform</Text>
                 </View>
 
                 {/* Headline */}
                 <Text style={[styles.headline, isMobile && styles.headlineMobile, isTablet && styles.headlineTablet]}>
-                    Local SEO Agency That Grows Your Business — One City at a Time
+                    Rank Higher on Google Maps. Get More Walk-ins Locally.
                 </Text>
 
                 {/* Subheadline */}
                 <Text style={[styles.subhead, isMobile && styles.subheadMobile]}>
-                    Struggling to get found in your city? Our local AI platform helps small and medium-sized businesses rank higher on Google Maps and local search — turning clicks into real customers.
+                    From clinics in Delhi to cafes in Mumbai, our AI-powered platform helps local Indian businesses dominate search results, automate Google reviews, and turn clicks into real customers.
                 </Text>
 
                 {/* CTAs */}
                 <View style={[styles.ctaContainer, isMobile && styles.ctaContainerMobile]}>
                     <Pressable
-                        style={styles.primaryCta}
+                        style={({ pressed }) => [styles.primaryCta, pressed && { opacity: 0.9 }]}
                         onPress={() => router.push('/(auth)/signup')}
                     >
-                        <Text style={styles.primaryCtaText}>Get More Traffic Now</Text>
+                        <Text style={styles.primaryCtaText}>Start Growing Now</Text>
                     </Pressable>
                     <Pressable
-                        style={styles.secondaryCta}
+                        style={({ pressed }) => [styles.secondaryCta, pressed && { backgroundColor: COLORS.primaryTranslucent }]}
                         onPress={() => {
                             // Scroll to features or learn more
                             const featuresSection = document.getElementById('features');
@@ -56,9 +57,9 @@ export default function HeroSection() {
 
                 {/* Trust indicators */}
                 <View style={styles.trustIndicators}>
-                    <Text style={styles.trustText}>✓ No Credit Card Required   ✓ 14-Day Free Trial   ✓ Cancel Anytime</Text>
+                    <Text style={styles.trustText}>✓ Trusted by 10,000+ businesses   ✓ 14-Day Free Trial   ✓ No Setup Fee</Text>
                 </View>
-            </View>
+            </FadeInSection>
         </LinearGradient>
     );
 }
@@ -66,7 +67,7 @@ export default function HeroSection() {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        paddingVertical: 80,
+        paddingVertical: 100,
     },
     content: {
         maxWidth: 1000,
@@ -75,18 +76,20 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
     },
     contentMobile: {
-        paddingVertical: 40,
+        paddingVertical: 60,
         paddingHorizontal: 20,
     },
     badge: {
-        backgroundColor: '#E8F0FF',
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        borderRadius: 20,
+        backgroundColor: COLORS.primaryTranslucent,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: RADIUS.full,
         marginBottom: 24,
+        borderWidth: 1,
+        borderColor: 'rgba(79, 70, 229, 0.2)',
     },
     badgeText: {
-        color: COLORS.primaryDark,
+        color: COLORS.primary,
         fontSize: 14,
         fontFamily: 'Inter_600SemiBold',
     },
@@ -133,16 +136,16 @@ const styles = StyleSheet.create({
     },
     primaryCta: {
         backgroundColor: COLORS.primary,
-        paddingVertical: 16,
-        paddingHorizontal: 32,
-        borderRadius: 8,
+        paddingVertical: 18,
+        paddingHorizontal: 36,
+        borderRadius: RADIUS.full,
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: COLORS.primary,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        elevation: 4,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.3,
+        shadowRadius: 16,
+        elevation: 6,
     },
     primaryCtaText: {
         color: '#FFFFFF',
@@ -150,17 +153,17 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_600SemiBold',
     },
     secondaryCta: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'transparent',
         borderWidth: 1,
-        borderColor: '#E2E8F0',
-        paddingVertical: 16,
-        paddingHorizontal: 32,
-        borderRadius: 8,
+        borderColor: COLORS.primary,
+        paddingVertical: 18,
+        paddingHorizontal: 36,
+        borderRadius: RADIUS.full,
         alignItems: 'center',
         justifyContent: 'center',
     },
     secondaryCtaText: {
-        color: COLORS.textPrimary,
+        color: COLORS.primary,
         fontSize: 16,
         fontFamily: 'Inter_600SemiBold',
     },
@@ -170,6 +173,6 @@ const styles = StyleSheet.create({
     trustText: {
         fontSize: 14,
         fontFamily: 'Inter_500Medium',
-        color: '#64748B',
+        color: COLORS.textSecondary,
     },
 });

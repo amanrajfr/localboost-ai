@@ -19,10 +19,12 @@ const TREND_CONFIG = {
 function ScoreGauge({ score }: { score: number }) {
     const color = score >= 75 ? COLORS.success : score >= 50 ? '#F59E0B' : COLORS.error;
     return (
-        <View style={[styles.gauge, { borderColor: color + '30', backgroundColor: color + '08' }]}>
-            <Text style={[styles.gaugeScore, { color }]}>{score}</Text>
-            <Text style={styles.gaugeLabel}>/ 100</Text>
-            <Text style={styles.gaugeTitle}>Visibility Score</Text>
+        <View style={styles.scoreCard}>
+            <Text style={styles.scoreLabel}>Visibility Score</Text>
+            <View style={[styles.scoreCircle, { borderColor: color, backgroundColor: color + '15' }]}>
+                <Text style={[styles.scoreValue, { color }]}>{score}</Text>
+            </View>
+            <Text style={styles.scoreLabel}>/ 100</Text>
         </View>
     );
 }
@@ -79,39 +81,39 @@ export default function InsightsScreen() {
             {/* Score + Stats row */}
             <View style={styles.topRow}>
                 <ScoreGauge score={data.overall_score} />
-                <View style={styles.statsCol}>
-                    <View style={styles.statCard}>
-                        <Text style={styles.statValue}>{'★'.repeat(Math.round(data.avg_rating))}</Text>
-                        <Text style={styles.statSub}>{data.avg_rating.toFixed(1)} avg rating</Text>
+                <View style={styles.rightMetrics}>
+                    <View style={styles.metricCard}>
+                        <Text style={styles.metricValue}>{'★'.repeat(Math.round(data.avg_rating))}</Text>
+                        <Text style={styles.metricLabel}>{data.avg_rating.toFixed(1)} avg rating</Text>
                     </View>
-                    <View style={styles.statCard}>
-                        <Text style={styles.statValue}>{data.total_reviews}</Text>
-                        <Text style={styles.statSub}>total reviews</Text>
+                    <View style={styles.metricCard}>
+                        <Text style={styles.metricValue}>{data.total_reviews}</Text>
+                        <Text style={styles.metricLabel}>total reviews</Text>
                     </View>
-                    <View style={[styles.statCard, { backgroundColor: trend.color + '10' }]}>
-                        <Text style={styles.statValue}>{trend.emoji}</Text>
-                        <Text style={[styles.statSub, { color: trend.color }]}>{trend.label}</Text>
+                    <View style={[styles.metricCard, { backgroundColor: trend.color + '10' }]}>
+                        <Text style={styles.metricValue}>{trend.emoji}</Text>
+                        <Text style={[styles.metricLabel, { color: trend.color }]}>{trend.label}</Text>
                     </View>
                 </View>
             </View>
 
             {/* AI Suggestion */}
-            <View style={styles.aiCard}>
-                <View style={styles.aiCardHeader}>
-                    <Text style={styles.aiCardEmoji}>🤖</Text>
-                    <Text style={styles.aiCardTitle}>AI Recommendation</Text>
+            <View style={styles.insightCard}>
+                <View style={styles.insightHeader}>
+                    <Text style={{ fontSize: 24 }}>🤖</Text>
+                    <Text style={styles.insightTitle}>AI Recommendation</Text>
                 </View>
-                <Text style={styles.aiCardText}>{data.ai_suggestion}</Text>
+                <Text style={styles.insightText}>{data.ai_suggestion}</Text>
             </View>
 
             {/* Top Keywords */}
             {data.top_keywords.length > 0 && (
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>💬 What Customers Say</Text>
-                    <View style={styles.keywordsWrap}>
+                    <View style={styles.traitsContainer}>
                         {data.top_keywords.map((kw, i) => (
-                            <View key={i} style={[styles.keyword, { backgroundColor: COLORS.primary + (i % 2 === 0 ? '12' : '20') }]}>
-                                <Text style={styles.keywordText}>{kw}</Text>
+                            <View key={i} style={[styles.traitBadge, { backgroundColor: COLORS.primary + (i % 2 === 0 ? '12' : '20') }]}>
+                                <Text style={styles.traitText}>{kw}</Text>
                             </View>
                         ))}
                     </View>
@@ -144,33 +146,69 @@ const styles = StyleSheet.create({
     backText: { color: COLORS.primary, fontFamily: 'Inter_600SemiBold', fontSize: FONT_SIZE.md },
     title: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.xxl, color: COLORS.textPrimary, marginBottom: SPACING.xs },
     subtitle: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.sm, color: COLORS.textSecondary },
-    topRow: { flexDirection: 'row', gap: SPACING.md, marginBottom: SPACING.xl },
-    gauge: {
-        flex: 1.2, borderRadius: RADIUS.lg, padding: SPACING.lg,
-        alignItems: 'center', justifyContent: 'center', borderWidth: 2, ...SHADOW.sm,
+    topRow: { flexDirection: 'row', gap: SPACING.md, marginBottom: SPACING.lg },
+    scoreCard: {
+        flex: 1,
+        backgroundColor: COLORS.surface,
+        borderRadius: RADIUS.lg,
+        padding: SPACING.lg,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        shadowColor: COLORS.primaryDark,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
+        elevation: 2,
     },
-    gaugeScore: { fontFamily: 'Inter_700Bold', fontSize: 48, lineHeight: 56 },
-    gaugeLabel: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.md, color: COLORS.textSecondary },
-    gaugeTitle: { fontFamily: 'Inter_500Medium', fontSize: FONT_SIZE.xs, color: COLORS.textMuted, marginTop: 4 },
-    statsCol: { flex: 1, gap: SPACING.sm },
-    statCard: {
-        flex: 1, backgroundColor: COLORS.surface, borderRadius: RADIUS.md,
-        padding: SPACING.sm, alignItems: 'center', ...SHADOW.sm,
+    scoreLabel: { fontFamily: 'Inter_500Medium', fontSize: FONT_SIZE.sm, color: COLORS.textSecondary, marginBottom: SPACING.sm },
+    scoreCircle: {
+        width: 80, height: 80, borderRadius: RADIUS.full,
+        justifyContent: 'center', alignItems: 'center',
+        backgroundColor: COLORS.primaryTranslucent,
+        borderWidth: 2,
+        borderColor: COLORS.primaryLight,
+        marginBottom: SPACING.sm,
     },
-    statValue: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.lg, color: COLORS.textPrimary },
-    statSub: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.xs, color: COLORS.textSecondary },
-    aiCard: {
-        backgroundColor: COLORS.primary, borderRadius: RADIUS.lg, padding: SPACING.lg,
-        marginBottom: SPACING.xl, ...SHADOW.md,
+    scoreValue: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.hero, color: COLORS.primaryDark },
+    trendBox: { paddingHorizontal: 12, paddingVertical: 4, borderRadius: RADIUS.full },
+    trendText: { fontFamily: 'Inter_600SemiBold', fontSize: FONT_SIZE.xs, color: '#fff' },
+
+    rightMetrics: { flex: 1, gap: SPACING.md },
+    metricCard: {
+        backgroundColor: COLORS.surface,
+        borderRadius: RADIUS.lg,
+        padding: SPACING.md,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.border,
     },
-    aiCardHeader: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.md },
-    aiCardEmoji: { fontSize: 24 },
-    aiCardTitle: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.lg, color: '#FFFFFF' },
-    aiCardText: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.sm, color: 'rgba(255,255,255,0.9)', lineHeight: 22 },
+    metricValue: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.xl, color: COLORS.textPrimary, marginVertical: 4 },
+    metricLabel: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.xs, color: COLORS.textSecondary },
+
+    insightCard: {
+        backgroundColor: COLORS.primaryTranslucent,
+        borderRadius: RADIUS.lg,
+        padding: SPACING.lg,
+        marginBottom: SPACING.lg,
+        borderWidth: 1,
+        borderColor: 'rgba(79, 70, 229, 0.2)',
+    },
+    insightHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: SPACING.xs },
+    insightTitle: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.md, color: COLORS.primary },
+    insightText: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.sm, color: COLORS.primaryDark, lineHeight: 22, marginTop: SPACING.sm },
+
     section: { marginBottom: SPACING.xl },
-    sectionTitle: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.lg, color: COLORS.textPrimary, marginBottom: SPACING.md },
-    keywordsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.sm },
-    keyword: { paddingHorizontal: SPACING.md, paddingVertical: 6, borderRadius: RADIUS.full },
-    keywordText: { fontFamily: 'Inter_600SemiBold', fontSize: FONT_SIZE.sm, color: COLORS.primary },
+    sectionTitle: { fontFamily: 'Inter_600SemiBold', fontSize: FONT_SIZE.md, color: COLORS.textPrimary, marginBottom: SPACING.sm },
+    traitsContainer: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.sm, marginBottom: SPACING.lg },
+    traitBadge: {
+        backgroundColor: COLORS.surface,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: RADIUS.full,
+    },
+    traitText: { fontFamily: 'Inter_500Medium', fontSize: FONT_SIZE.sm, color: COLORS.textPrimary },
     tip: { fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.sm, color: COLORS.textSecondary, marginBottom: 8, lineHeight: 20 },
 });

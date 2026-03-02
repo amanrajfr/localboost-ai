@@ -130,13 +130,15 @@ const styles = StyleSheet.create({
     fieldLabel: { fontFamily: 'Inter_600SemiBold', fontSize: FONT_SIZE.sm, color: COLORS.textPrimary },
     input: {
         backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border,
-        borderRadius: RADIUS.sm, paddingHorizontal: SPACING.md, paddingVertical: 12,
+        borderRadius: RADIUS.lg, paddingHorizontal: SPACING.md, paddingVertical: 14,
         fontFamily: 'Inter_400Regular', fontSize: FONT_SIZE.md, color: COLORS.textPrimary,
     },
-    inputMultiline: { height: 90, textAlignVertical: 'top', paddingTop: 12 },
+    inputMultiline: { height: 100, textAlignVertical: 'top', paddingTop: 14, borderRadius: RADIUS.md },
     saveBtn: {
-        height: BUTTON.height, borderRadius: BUTTON.borderRadius, backgroundColor: COLORS.primary,
-        justifyContent: 'center', alignItems: 'center', ...SHADOW.md,
+        height: 56, borderRadius: RADIUS.full, backgroundColor: COLORS.primary,
+        justifyContent: 'center', alignItems: 'center',
+        shadowColor: COLORS.primaryDark, shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.2, shadowRadius: 16, elevation: 6,
     },
     saveBtnText: { fontFamily: 'Inter_700Bold', fontSize: FONT_SIZE.md, color: '#FFFFFF' },
 });
