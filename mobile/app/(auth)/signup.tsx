@@ -1,5 +1,5 @@
 /**
- * Sign Up Screen
+ * Sign Up Screen — Modern Glassmorphism Design
  */
 
 import { useState } from 'react';
@@ -14,14 +14,18 @@ import {
     ScrollView,
     Alert,
     ActivityIndicator,
+    useWindowDimensions,
 } from 'react-native';
 import { useRouter, Link } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '../../context/AuthContext';
-import { COLORS, SPACING, FONT_SIZE, RADIUS, BUTTON, SHADOW } from '../../constants/theme';
+import { COLORS, SPACING, FONT_SIZE, RADIUS, SHADOW } from '../../constants/theme';
 
 export default function SignUp() {
     const router = useRouter();
     const { register } = useAuth();
+    const { width } = useWindowDimensions();
+    const isDesktop = width >= 768;
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -65,194 +69,291 @@ export default function SignUp() {
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.flex}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        <LinearGradient
+            colors={['#EEF2FF', '#E0E7FF', '#F8FAFC']}
+            style={styles.gradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
         >
-            <ScrollView
-                contentContainerStyle={styles.container}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
+            <KeyboardAvoidingView
+                style={styles.flex}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             >
-                {/* Header */}
-                <View style={styles.header}>
-                    <Text style={styles.title}>Create Account</Text>
-                    <Text style={styles.subtitle}>Start boosting your business today</Text>
-                </View>
+                <ScrollView
+                    contentContainerStyle={[
+                        styles.container,
+                        isDesktop && styles.containerDesktop,
+                    ]}
+                    keyboardShouldPersistTaps="handled"
+                    showsVerticalScrollIndicator={false}
+                >
+                    {/* Glass Card */}
+                    <View style={[styles.card, isDesktop && styles.cardDesktop]}>
+                        {/* Logo / Brand */}
+                        <View style={styles.brandRow}>
+                            <Text style={styles.brandEmoji}>🚀</Text>
+                            <Text style={styles.brandName}>LocalBoost<Text style={styles.brandAI}>AI</Text></Text>
+                        </View>
 
-                {/* Form */}
-                <View style={styles.form}>
-                    {/* Name */}
-                    <View style={styles.fieldGroup}>
-                        <Text style={styles.label}>Full Name</Text>
-                        <TextInput
-                            style={[styles.input, errors.name && styles.inputError]}
-                            placeholder="Aman Raj"
-                            placeholderTextColor={COLORS.textMuted}
-                            value={name}
-                            onChangeText={setName}
-                            autoCapitalize="words"
-                        />
-                        {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
+                        {/* Header */}
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Create your account</Text>
+                            <Text style={styles.subtitle}>Join 10,000+ Indian businesses growing with AI</Text>
+                        </View>
+
+                        {/* Form */}
+                        <View style={styles.form}>
+                            {/* Name */}
+                            <View style={styles.fieldGroup}>
+                                <Text style={styles.label}>Full Name</Text>
+                                <View style={[styles.inputWrapper, errors.name && styles.inputError]}>
+                                    <Text style={styles.inputIcon}>👤</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Rahul Sharma"
+                                        placeholderTextColor={COLORS.textMuted}
+                                        value={name}
+                                        onChangeText={setName}
+                                        autoCapitalize="words"
+                                    />
+                                </View>
+                                {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
+                            </View>
+
+                            {/* Email */}
+                            <View style={styles.fieldGroup}>
+                                <Text style={styles.label}>Email Address</Text>
+                                <View style={[styles.inputWrapper, errors.email && styles.inputError]}>
+                                    <Text style={styles.inputIcon}>✉️</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="you@example.com"
+                                        placeholderTextColor={COLORS.textMuted}
+                                        value={email}
+                                        onChangeText={setEmail}
+                                        keyboardType="email-address"
+                                        autoCapitalize="none"
+                                    />
+                                </View>
+                                {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+                            </View>
+
+                            {/* Phone */}
+                            <View style={styles.fieldGroup}>
+                                <Text style={styles.label}>Phone Number</Text>
+                                <View style={[styles.inputWrapper, errors.phone && styles.inputError]}>
+                                    <Text style={styles.inputIcon}>📱</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="9876543210"
+                                        placeholderTextColor={COLORS.textMuted}
+                                        value={phone}
+                                        onChangeText={setPhone}
+                                        keyboardType="number-pad"
+                                        maxLength={10}
+                                    />
+                                </View>
+                                {errors.phone && <Text style={styles.errorText}>{errors.phone}</Text>}
+                            </View>
+
+                            {/* Password */}
+                            <View style={styles.fieldGroup}>
+                                <Text style={styles.label}>Password</Text>
+                                <View style={[styles.inputWrapper, errors.password && styles.inputError]}>
+                                    <Text style={styles.inputIcon}>🔒</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Min. 8 characters"
+                                        placeholderTextColor={COLORS.textMuted}
+                                        value={password}
+                                        onChangeText={setPassword}
+                                        secureTextEntry={true}
+                                    />
+                                </View>
+                                {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+                            </View>
+
+                            {/* Sign Up Button */}
+                            <TouchableOpacity
+                                style={[styles.primaryButton, loading && styles.buttonDisabled]}
+                                onPress={handleSignUp}
+                                activeOpacity={0.85}
+                                disabled={loading}
+                            >
+                                <LinearGradient
+                                    colors={['#4F46E5', '#6366F1']}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0 }}
+                                    style={styles.buttonGradient}
+                                >
+                                    {loading ? (
+                                        <ActivityIndicator color="#FFF" />
+                                    ) : (
+                                        <Text style={styles.primaryButtonText}>Create Account</Text>
+                                    )}
+                                </LinearGradient>
+                            </TouchableOpacity>
+
+                            {/* Divider */}
+                            <View style={styles.divider}>
+                                <View style={styles.dividerLine} />
+                                <Text style={styles.dividerText}>or continue with</Text>
+                                <View style={styles.dividerLine} />
+                            </View>
+
+                            {/* Google Button */}
+                            <TouchableOpacity
+                                style={styles.googleButton}
+                                onPress={handleGoogleSignUp}
+                                activeOpacity={0.8}
+                            >
+                                <Text style={styles.googleIcon}>G</Text>
+                                <Text style={styles.googleButtonText}>Sign up with Google</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* Footer link */}
+                        <View style={styles.footer}>
+                            <Text style={styles.footerText}>Already have an account? </Text>
+                            <Link href="/(auth)/login" asChild>
+                                <TouchableOpacity>
+                                    <Text style={styles.footerLink}>Log In</Text>
+                                </TouchableOpacity>
+                            </Link>
+                        </View>
                     </View>
-
-                    {/* Email */}
-                    <View style={styles.fieldGroup}>
-                        <Text style={styles.label}>Email</Text>
-                        <TextInput
-                            style={[styles.input, errors.email && styles.inputError]}
-                            placeholder="you@example.com"
-                            placeholderTextColor={COLORS.textMuted}
-                            value={email}
-                            onChangeText={setEmail}
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                        />
-                        {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-                    </View>
-
-                    {/* Phone */}
-                    <View style={styles.fieldGroup}>
-                        <Text style={styles.label}>Phone Number</Text>
-                        <TextInput
-                            style={[styles.input, errors.phone && styles.inputError]}
-                            placeholder="9876543210"
-                            placeholderTextColor={COLORS.textMuted}
-                            value={phone}
-                            onChangeText={setPhone}
-                            keyboardType="number-pad"
-                            maxLength={10}
-                        />
-                        {errors.phone && <Text style={styles.errorText}>{errors.phone}</Text>}
-                    </View>
-
-                    {/* Password */}
-                    <View style={styles.fieldGroup}>
-                        <Text style={styles.label}>Password</Text>
-                        <TextInput
-                            style={[styles.input, errors.password && styles.inputError]}
-                            placeholder="Minimum 8 characters"
-                            placeholderTextColor={COLORS.textMuted}
-                            value={password}
-                            onChangeText={setPassword}
-                            secureTextEntry={true}
-                        />
-                        {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
-                    </View>
-
-                    {/* Sign Up Button */}
-                    <TouchableOpacity
-                        style={[styles.primaryButton, loading && styles.buttonDisabled]}
-                        onPress={handleSignUp}
-                        activeOpacity={0.8}
-                        disabled={loading}
-                    >
-                        {loading ? (
-                            <ActivityIndicator color={COLORS.textOnPrimary} />
-                        ) : (
-                            <Text style={styles.primaryButtonText}>Sign Up</Text>
-                        )}
-                    </TouchableOpacity>
-
-                    {/* Divider */}
-                    <View style={styles.divider}>
-                        <View style={styles.dividerLine} />
-                        <Text style={styles.dividerText}>or</Text>
-                        <View style={styles.dividerLine} />
-                    </View>
-
-                    {/* Google Button */}
-                    <TouchableOpacity
-                        style={styles.googleButton}
-                        onPress={handleGoogleSignUp}
-                        activeOpacity={0.8}
-                    >
-                        <Text style={styles.googleIcon}>G</Text>
-                        <Text style={styles.googleButtonText}>Sign up with Google</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {/* Footer link */}
-                <View style={styles.footer}>
-                    <Text style={styles.footerText}>Already have an account? </Text>
-                    <Link href="/(auth)/login" asChild>
-                        <TouchableOpacity>
-                            <Text style={styles.footerLink}>Log In</Text>
-                        </TouchableOpacity>
-                    </Link>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
-    flex: { flex: 1, backgroundColor: COLORS.background },
+    gradient: {
+        flex: 1,
+    },
+    flex: { flex: 1 },
     container: {
         flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: SPACING.md,
+        paddingVertical: 40,
+    },
+    containerDesktop: {
+        paddingVertical: 60,
+    },
+    card: {
+        width: '100%',
+        maxWidth: 460,
+        backgroundColor: 'rgba(255, 255, 255, 0.88)',
+        borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.lg,
-        paddingTop: 80,
-        paddingBottom: SPACING.xl,
+        paddingVertical: 36,
+        ...SHADOW.lg,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.6)',
+    },
+    cardDesktop: {
+        paddingHorizontal: 40,
+        paddingVertical: 44,
+        borderRadius: 28,
+    },
+    brandRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        marginBottom: SPACING.lg,
+    },
+    brandEmoji: {
+        fontSize: 28,
+    },
+    brandName: {
+        fontFamily: 'Inter_700Bold',
+        fontSize: 22,
+        color: COLORS.textPrimary,
+    },
+    brandAI: {
+        color: COLORS.primary,
     },
     header: {
+        alignItems: 'center',
         marginBottom: SPACING.xl,
     },
     title: {
         fontFamily: 'Inter_700Bold',
-        fontSize: FONT_SIZE.hero,
+        fontSize: 26,
         color: COLORS.textPrimary,
         letterSpacing: -0.5,
+        textAlign: 'center',
     },
     subtitle: {
         fontFamily: 'Inter_400Regular',
-        fontSize: FONT_SIZE.md,
+        fontSize: FONT_SIZE.sm,
         color: COLORS.textSecondary,
         marginTop: SPACING.xs,
+        textAlign: 'center',
     },
     form: {
         gap: SPACING.md,
     },
     fieldGroup: {
-        gap: SPACING.xs,
+        gap: 6,
     },
     label: {
         fontFamily: 'Inter_500Medium',
         fontSize: FONT_SIZE.sm,
-        color: COLORS.textPrimary,
+        color: COLORS.textSecondary,
+        marginLeft: 4,
+    },
+    inputWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        borderWidth: 1.5,
+        borderColor: COLORS.border,
+        borderRadius: RADIUS.full,
+        paddingHorizontal: SPACING.md,
+        backgroundColor: 'rgba(248, 250, 252, 0.7)',
+        gap: 10,
+    },
+    inputIcon: {
+        fontSize: 16,
     },
     input: {
-        height: 52,
-        borderWidth: 1,
-        borderColor: COLORS.border,
-        borderRadius: RADIUS.full, // Pill shaped inputs
-        paddingHorizontal: SPACING.lg,
+        flex: 1,
         fontFamily: 'Inter_400Regular',
         fontSize: FONT_SIZE.md,
         color: COLORS.textPrimary,
-        backgroundColor: COLORS.surface,
+        height: '100%',
     },
     inputError: {
         borderColor: COLORS.error,
-        borderWidth: 1.5,
+        borderWidth: 2,
+        backgroundColor: 'rgba(239, 68, 68, 0.04)',
     },
     errorText: {
         fontFamily: 'Inter_400Regular',
         fontSize: FONT_SIZE.xs,
         color: COLORS.error,
-        marginLeft: SPACING.sm,
+        marginLeft: SPACING.md,
     },
     primaryButton: {
-        backgroundColor: COLORS.primary,
-        height: 56, // Slightly taller
-        borderRadius: RADIUS.full, // Pill shaped button
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: SPACING.md,
-        shadowColor: COLORS.primaryDark,
+        marginTop: SPACING.sm,
+        borderRadius: RADIUS.full,
+        overflow: 'hidden',
+        shadowColor: COLORS.primary,
         shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.2,
+        shadowOpacity: 0.3,
         shadowRadius: 16,
         elevation: 6,
+    },
+    buttonGradient: {
+        height: 54,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: RADIUS.full,
     },
     buttonDisabled: {
         opacity: 0.6,
@@ -262,7 +363,8 @@ const styles = StyleSheet.create({
     primaryButtonText: {
         fontFamily: 'Inter_600SemiBold',
         fontSize: FONT_SIZE.lg,
-        color: COLORS.textOnPrimary,
+        color: '#FFFFFF',
+        letterSpacing: 0.3,
     },
     divider: {
         flexDirection: 'row',
@@ -276,36 +378,36 @@ const styles = StyleSheet.create({
     },
     dividerText: {
         fontFamily: 'Inter_400Regular',
-        fontSize: FONT_SIZE.sm,
+        fontSize: FONT_SIZE.xs,
         color: COLORS.textMuted,
         marginHorizontal: SPACING.md,
     },
     googleButton: {
         flexDirection: 'row',
-        height: 56,
+        height: 50,
         borderRadius: RADIUS.full,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: COLORS.google,
-        borderWidth: 1,
-        borderColor: 'rgba(0,0,0,0.1)',
+        backgroundColor: '#FFFFFF',
+        borderWidth: 1.5,
+        borderColor: COLORS.border,
         gap: SPACING.sm,
     },
     googleIcon: {
         fontFamily: 'Inter_700Bold',
-        fontSize: FONT_SIZE.xl,
+        fontSize: 18,
         color: '#4285F4',
     },
     googleButtonText: {
         fontFamily: 'Inter_500Medium',
         fontSize: FONT_SIZE.md,
-        color: COLORS.googleText,
+        color: COLORS.textPrimary,
     },
     footer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: SPACING.xl,
+        marginTop: SPACING.lg,
     },
     footerText: {
         fontFamily: 'Inter_400Regular',

@@ -52,3 +52,6 @@ web-build/
 
 # Temp
 test_cors.py
+
+# Vercel local config (dashboard settings take priority)
+.vercel/
